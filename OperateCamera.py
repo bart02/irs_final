@@ -9,7 +9,7 @@ class OperateCamera:
         Custom = 0
         Default = 1
         Hand = 2
-        HighAccuracy = 5
+        HighAccuracy = 3
         HighDensity = 4
         MediumDensity = 5
 
@@ -32,7 +32,7 @@ class OperateCamera:
         self.depth_sensor = profile.get_device().first_depth_sensor()
 
         # Using preset HighAccuracy for recording
-        self.depth_sensor.set_option(rs.option.visual_preset, self.Preset.HighAccuracy)
+        self.depth_sensor.set_option(rs.option.visual_preset, self.Preset.Default)
 
         # Getting the depth sensor's depth scale (see rs-align example for explanation)
         self.depth_scale = self.depth_sensor.get_depth_scale()
