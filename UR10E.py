@@ -25,3 +25,4 @@ class UR10E:
 
     def close(self):
         self.robot.close()
+
