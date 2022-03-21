@@ -8,7 +8,7 @@ def main():
     #
     x = -176 / 1000
     y = -95 / 1000
-    robot.setPos(x, y, 0)
+    robot.setPos(x, y, 0, 3.14 / 6)
     robot.close()
 
 

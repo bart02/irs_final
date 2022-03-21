@@ -10,14 +10,7 @@ class UR10E:
         self.robot.movel(self.startPos)
         time.sleep(2)
 
-    def setAng(self, ang):
-        t = self.robot.getl()
-
-        t['z'] = ang
-        self.robot.movel(t)
-        time.sleep(2)
-
-    def setPos(self, dx, dy, dz):
+    def setPos(self, dx, dy, dz, ang):
         if self.startPos['z'] + dz < 0.07:
             raise Exception('you are dumb')
         t = self.robot.getl()
@@ -26,7 +19,7 @@ class UR10E:
         t[2] = self.startPos['z'] + dz
         t[3] = 3.015
         t[4] = -0.906
-        t[5] = 0
+        t[5] = ang
         self.robot.movel_list(t)
         time.sleep(2)
 
