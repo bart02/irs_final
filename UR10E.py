@@ -2,7 +2,7 @@ from OperateRobot import OperateRobot
 import time
 
 
-class UR10E:
+class UR10E(object):
     startPos = {"x": -0.810440, "y": -0.172290, "z": 0.908820, "rx": 1.487, "ry": 3.536, "rz": -0.669}
 
     def __init__(self):
