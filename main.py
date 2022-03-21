@@ -19,7 +19,6 @@ def catch_img():
     return frame
 
 def main():
-    robot.initPos()
     frame = catch_img()
     print(frame.points[0])
     print(frame.colors[0])
