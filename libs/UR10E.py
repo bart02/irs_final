@@ -21,13 +21,13 @@ class UR10E:
         if self.startPos['z'] + dz < 0.07:
             raise Exception('you are dumb')
         t = self.robot.getl()
-        t['x'] = self.startPos['x'] + dx
-        t['y'] = self.startPos['y'] + dy
-        t['z'] = self.startPos['z'] + dz
-        t['rx'] = 3.015
-        t['ry'] = -0.906
-        t['rz'] = 0
-        self.robot.movel(t)
+        t[0] = self.startPos['x'] + dx
+        t[1] = self.startPos['y'] + dy
+        t[2] = self.startPos['z'] + dz
+        t[3] = 3.015
+        t[4] = -0.906
+        t[5] = 0
+        self.robot.movel_list(t)
         time.sleep(2)
 
     def initPos(self):

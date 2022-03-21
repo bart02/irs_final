@@ -10,6 +10,10 @@ class OperateRobot:
     def movel(self, point: dict):
         self.rob.movel((point["x"], point["y"], point["z"], point["rx"], point["ry"], point["rz"]), 0.2, 0.2)
 
+    def movel_list(self, point: list):
+        self.rob.movel(point, 0.2, 0.2)
+
+
     def getl(self):
         return self.rob.getl()
 

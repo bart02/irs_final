@@ -5,8 +5,13 @@ import numpy as np
 class CVProcessImage:
     PIXEL_TO_MM_COEFF = 50 / 132
 
-    def __init__(self, fn: str):
-        self.im = cv2.imread(fn)
+    def __init__(self, fn: str = None, frame: np.ndarray = None):
+        if frame:
+            self.im = frame.copy()
+        elif fn:
+            self.im = cv2.imread(fn)
+        else:
+            raise Exception('You are pidor')
         self.im = cv2.rotate(self.im, cv2.ROTATE_180)
 
     @property
