@@ -6,6 +6,7 @@ import UR10E
 from OperateRobot import OperateRobot
 
 # Connection to the robot
+
 rob = OperateRobot("172.31.1.25")
 
 # Taking global linear position of arm

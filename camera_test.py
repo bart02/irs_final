@@ -5,7 +5,6 @@ from OperateCamera import OperateCamera
 
 
 cam = OperateCamera()
-
 # Taking data frame from camera (RGBD format)
 frame = cam.catch_frame()
 
