@@ -25,7 +25,7 @@ class OperateCamera:
         # config.enable_stream(rs.stream.depth, 1280, 720, rs.format.z16, 30)
         # config.enable_stream(rs.stream.color, 640, 480, rs.format.rgb8, 30)
         self.config.enable_stream(rs.stream.depth, 1280, 720, rs.format.z16, 30)
-        self.config.enable_stream(rs.stream.color, 1280, 720, rs.format.rgb8, 30)
+        self.config.enable_stream(rs.stream.color, 1280, 720, rs.format.bgr8, 30)
 
         # Start streaming
         profile = self.pipeline.start(self.config)
@@ -88,6 +88,22 @@ class OperateCamera:
         # o3d.io.write_point_cloud(f'{add_path}dataset/out.ply', pcd)
         print('Stopped catching realsence data')
         return self.pcd
+
+    def get_color_depth_frame(self):
+        # Get frameset of color and depth
+        frames = self.pipeline.wait_for_frames()
+
+        # Align the depth frame to color frame
+        aligned_frames = self.align.process(frames)
+
+        depth_frame = aligned_frames.get_depth_frame()
+        color_frame = aligned_frames.get_color_frame()
+
+        depth_image = np.asanyarray(depth_frame.get_data())
+        color_image = np.asanyarray(color_frame.get_data())
+        if not depth_frame or not color_frame:
+            return False, None, None
+        return True, depth_image, color_image
 
     def save(self, filename):
         o3d.io.write_point_cloud(filename, self.pcd)
