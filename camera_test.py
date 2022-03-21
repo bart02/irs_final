@@ -13,7 +13,7 @@ print(frame.points[0])
 # Printing r g b color of some point
 print(frame.colors[0])
 
-lihgsd = "data_set/test11.ply"
+lihgsd = "data_set/test4.ply"
 
 # Saving test data frame from camera (RGBD format)
 cam.save(lihgsd)

@@ -7,10 +7,11 @@ from UR10E import UR10E
 
 robot = UR10E()
 cam = OperateCamera()
-data = "data_set/test0.ply"
+
 
 
 def catch_img():
+    data = "data_set/test5.ply"
     frame = cam.catch_frame()
     cam.save(data)
     pcd = cam.open(data)

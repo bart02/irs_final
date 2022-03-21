@@ -3,7 +3,7 @@ import time
 
 
 class UR10E(object):
-    startPos = {"x": -0.810440, "y": -0.172290, "z": 0.908820, "rx": 1.487, "ry": 3.536, "rz": -0.669}
+    startPos = {"x": -0.810440, "y": -0.172290, "z": 1.097320, "rx": 1.487, "ry": 3.536, "rz": -0.669}
 
     def __init__(self):
         self.robot = OperateRobot("172.31.1.25")
