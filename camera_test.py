@@ -5,7 +5,6 @@ from OperateCamera import OperateCamera
 
 
 cam = OperateCamera()
-
 # Taking data frame from camera (RGBD format)
 frame = cam.catch_frame()
 
@@ -14,7 +13,7 @@ print(frame.points[0])
 # Printing r g b color of some point
 print(frame.colors[0])
 
-lihgsd = "data_set/test10.ply"
+lihgsd = "data_set/test11.ply"
 
 # Saving test data frame from camera (RGBD format)
 cam.save(lihgsd)
