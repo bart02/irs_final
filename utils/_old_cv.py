@@ -1,16 +1,19 @@
+# DEPRECATED
+
 import cv2
 import numpy as np
 
-COEFF = 50 / 41
+COEFF = 50 / 132
 
-im = cv2.imread('clouds/1647865824.5085747.jpg')
+im = cv2.imread('../clouds/1647866047.9190776.jpg')
+# im = cv2.resize(im, (640,480), cv2.INTER_AREA)
 im = cv2.rotate(im, cv2.ROTATE_180)
 
 frame_center = np.array((im.shape[1] // 2, im.shape[0] // 2))
 
 hsv = cv2.cvtColor(im, cv2.COLOR_BGR2HSV)
 
-blue = cv2.inRange(hsv, (100,0,0), (180,255,255))
+blue = cv2.inRange(hsv, (100,100,50), (180,255,255))
 
 cnt, _ = cv2.findContours(blue, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
@@ -20,6 +23,7 @@ for c in cnt:
 
         center = np.array((int(x), int(y)))
         center_from_frame = center - frame_center
+        center_from_frame[1] = -center_from_frame[1]
         mm = center_from_frame * COEFF
 
         box = cv2.boxPoints(rect)  # cv2.boxPoints(rect) for OpenCV 3.x

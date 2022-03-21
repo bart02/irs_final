@@ -1,9 +1,8 @@
-from OperateRobot import OperateRobot
-from math import pi
+from libs.OperateRobot import OperateRobot
 import time
 
 
-class UR10E(object):
+class UR10E:
     startPos = {"x": -0.790440, "y": -0.172290, "z": 0.7, "rx": 1.487, "ry": 3.536, "rz": -0.669}
 
     def __init__(self, ip):
@@ -20,7 +19,7 @@ class UR10E(object):
 
     def setPos(self, dx, dy, dz):
         if self.startPos['z'] + dz < 0.07:
-            raise NameError('you are dumb')
+            raise Exception('you are dumb')
         t = self.robot.getl()
         t['x'] = self.startPos['x'] + dx
         t['y'] = self.startPos['y'] + dy

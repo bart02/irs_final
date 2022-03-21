@@ -1,8 +1,7 @@
 import time
-from math import pi
 
-from OperateCamera import OperateCamera
-from OperateRobot import OperateRobot
+from libs.OperateCamera import OperateCamera
+from libs.OperateRobot import OperateRobot
 
 # Connection to the robot
 

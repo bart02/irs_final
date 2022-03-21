@@ -1,7 +1,6 @@
 import time
-from math import pi
 
-from OperateCamera import OperateCamera
+from libs.OperateCamera import OperateCamera
 
 
 cam = OperateCamera()
