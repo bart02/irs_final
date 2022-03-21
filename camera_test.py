@@ -13,6 +13,7 @@ print(frame.points[0])
 # Printing r g b color of some point
 print(frame.colors[0])
 
+
 lihgsd = f'{time.time()}.ply'
 
 # Saving test data frame from camera (RGBD format)

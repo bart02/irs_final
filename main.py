@@ -15,6 +15,7 @@ robot = UR10E("172.31.1.25")
 #     cam.visualization_of_points(pcd)
 #     return frame
 
+
 def main():
     #frame = catch_img()
     #print(frame.points[0])

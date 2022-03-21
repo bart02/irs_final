@@ -13,6 +13,7 @@ class UR10E(object):
 
     def setAng(self, ang):
         t = self.robot.getl()
+
         t['z'] = ang
         self.robot.movel(t)
         time.sleep(2)
