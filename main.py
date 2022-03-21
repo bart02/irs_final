@@ -1,5 +1,6 @@
 import time
 from math import pi
+import cv2 as cv
 from OperateCamera import OperateCamera
 from UR10E import UR10E
 
@@ -22,6 +23,7 @@ def main():
     frame = catch_img()
     print(frame.points[0])
     print(frame.colors[0])
+
 
 if __name__ == "__main__":
     main()
