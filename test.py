@@ -1,4 +1,4 @@
-import UR10E
+from UR10E import UR10E
 
 robot = UR10E()
 
