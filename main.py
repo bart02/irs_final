@@ -4,11 +4,8 @@ import cv2 as cv
 from OperateCamera import OperateCamera
 from UR10E import UR10E
 
-
 robot = UR10E("172.31.1.25")
 cam = OperateCamera()
-
-
 
 def catch_img():
     data = "data_set/test5.ply"
