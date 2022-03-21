@@ -5,20 +5,24 @@ from OperateCamera import OperateCamera
 from UR10E import UR10E
 
 robot = UR10E("172.31.1.25")
-cam = OperateCamera()
+#cam = OperateCamera()
 
-def catch_img():
-    data = "data_set/test5.ply"
-    frame = cam.catch_frame()
-    cam.save(data)
-    pcd = cam.open(data)
-    cam.visualization_of_points(pcd)
-    return frame
+# def catch_img():
+#     data = "data_set/test5.ply"
+#     frame = cam.catch_frame()
+#     cam.save(data)
+#     pcd = cam.open(data)
+#     cam.visualization_of_points(pcd)
+#     return frame
 
 def main():
     #frame = catch_img()
     #print(frame.points[0])
     #print(frame.colors[0])
+    x = -176/1000
+    y = -95/1000
+    robot.setPos(x,y,0)
+    print("huy")
     robot.close()
 
 if __name__ == "__main__":

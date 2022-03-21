@@ -4,7 +4,7 @@ import time
 
 
 class UR10E(object):
-    startPos = {"x": -0.790440, "y": -0.172290, "z": 0.6, "rx": 1.487, "ry": 3.536, "rz": -0.669}
+    startPos = {"x": -0.790440, "y": -0.172290, "z": 0.7, "rx": 1.487, "ry": 3.536, "rz": -0.669}
 
     def __init__(self, ip):
         self.robot = OperateRobot(ip)
@@ -13,20 +13,20 @@ class UR10E(object):
 
     def setAng(self, ang):
         t = self.robot.getl()
-        t[4] = ang
+        t['z'] = ang
         self.robot.movel(t)
         time.sleep(2)
 
     def setPos(self, dx, dy, dz):
-        if self.startPos[2] + dz < 0.07:
+        if self.startPos['z'] + dz < 0.07:
             raise NameError('you are dumb')
         t = self.robot.getl()
-        t[0] = self.startPos[0] + dx
-        t[1] = self.startPos[1] + dy
-        t[2] = self.startPos[2] + dz
-        t[3] = 3.015
-        t[4] = -0.906
-        t[5] = 0
+        t['x'] = self.startPos['x'] + dx
+        t['y'] = self.startPos['y'] + dy
+        t['z'] = self.startPos['z'] + dz
+        t['rx'] = 3.015
+        t['ry'] = -0.906
+        t['rz'] = 0
         self.robot.movel(t)
         time.sleep(2)
 
