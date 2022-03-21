@@ -9,7 +9,7 @@ class OperateCamera:
         Custom = 0
         Default = 1
         Hand = 2
-        HighAccuracy = 3
+        HighAccuracy = 5
         HighDensity = 4
         MediumDensity = 5
 
