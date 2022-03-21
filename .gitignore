@@ -247,3 +247,8 @@ cython_debug/
 # End of https://www.toptal.com/developers/gitignore/api/python,pycharm+all
 clouds/
 .DS_Store
+data_set/
+default.installation
+default.variables
+programs.UR5
+programs.UR10
