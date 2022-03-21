@@ -20,11 +20,10 @@ def catch_img():
 
 def main():
     robot.initPos()
-    robot.close()
     frame = catch_img()
     print(frame.points[0])
     print(frame.colors[0])
-
+    robot.close()
 
 if __name__ == "__main__":
     main()
