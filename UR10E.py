@@ -8,6 +8,7 @@ class UR10E:
     def __init__(self):
         self.robot = OperateRobot("172.31.1.25")
         self.robot.movel(self.startPos)
+        time.sleep(2)
 
     def setPos(self, dx, dy, dz):
         pos = {"x": self.startPos[0] + dx,
