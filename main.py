@@ -5,7 +5,7 @@ from OperateCamera import OperateCamera
 from UR10E import UR10E
 
 
-robot = UR10E()
+robot = UR10E("172.31.1.25")
 cam = OperateCamera()
 
 
