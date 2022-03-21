@@ -11,9 +11,16 @@ rob = OperateRobot("172.31.1.25")
 
 # Taking global linear position of arm
 pos = rob.getl()
-x = -810.440
-y = -172.290
-z = 908.820
-moving_coordinates = {"x": x, "y": y, "z": z, "rx": pos[3], "ry": pos[4], "rz": pos[5]}
+x = -810.440/1000
+y = -172.290/1000
+z = 908.820/1000
+rx = 1.487
+ry = 3.536
+rz = -0.669
+
+moving_coordinates = {"x": x, "y": y, "z": z, "rx": rx, "ry": ry, "rz": rz}
 rob.movel(moving_coordinates)
+time.sleep(2)
+
 print(pos)
+rob.close()
