@@ -16,9 +16,9 @@ def catch_img():
     return frame
 
 def main():
-    frame = catch_img()
-    print(frame.points[0])
-    print(frame.colors[0])
+    #frame = catch_img()
+    #print(frame.points[0])
+    #print(frame.colors[0])
     robot.close()
 
 if __name__ == "__main__":
