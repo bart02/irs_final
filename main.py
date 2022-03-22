@@ -13,6 +13,7 @@ robot = UR10E("localhost")
 # dockursim: / ursim - -privileged - -cpus = 1 - -gpus = all
 # arranhs / dockursim: latest
 def main():
+
     robot.open_gripper()
     # get z off-set pose
     x = 0

@@ -14,7 +14,7 @@ class CVProcessImage:
             self.im = cv2.imread(fn)
         else:
             raise Exception('You are pidor')
-        self.im = cv2.rotate(self.im, cv2.ROTATE_180)
+        self.im = cv2.flip(self.im, 1)
 
     @property
     def blue_thresh(self):
@@ -45,3 +45,7 @@ class CVProcessImage:
     @property
     def frame_center(self):
         return np.array((self.im.shape[1] // 2, self.im.shape[0] // 2))
+
+    def show(self, window: str):
+        cv2.imshow(window, self.im)
+        cv2.waitKey()
