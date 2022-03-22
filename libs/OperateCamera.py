@@ -24,8 +24,8 @@ class OperateCamera:
 
         # config.enable_stream(rs.stream.depth, 1280, 720, rs.format.z16, 30)
         # config.enable_stream(rs.stream.color, 640, 480, rs.format.rgb8, 30)
-        self.config.enable_stream(rs.stream.depth, 1280, 720, rs.format.z16, 30)
-        self.config.enable_stream(rs.stream.color, 1280, 720, rs.format.bgr8, 30)
+        self.config.enable_stream(rs.stream.depth, 640, 480, rs.format.z16, 30)
+        self.config.enable_stream(rs.stream.color, 640, 480, rs.format.bgr8, 30)
 
         # Start streaming
         profile = self.pipeline.start(self.config)
@@ -99,8 +99,8 @@ class OperateCamera:
         depth_frame = aligned_frames.get_depth_frame()
         color_frame = aligned_frames.get_color_frame()
 
-        depth_image = np.asanyarray(depth_frame.get_data())
-        color_image = np.asanyarray(color_frame.get_data())
+        depth_image: np.ndarray = np.asanyarray(depth_frame.get_data())
+        color_image: np.ndarray = np.asanyarray(color_frame.get_data())
         if not depth_frame or not color_frame:
             return False, None, None
         return True, depth_image, color_image
