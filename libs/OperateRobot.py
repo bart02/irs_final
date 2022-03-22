@@ -1,4 +1,5 @@
 import urx
+import time
 # pip install git+https://github.com/jkur/python-urx
 
 
@@ -12,6 +13,7 @@ class OperateRobot:
 
     def movel_list(self, point: list):
         self.rob.movel(point, 0.2, 0.2)
+        time.sleep(2)
 
 
     def getl(self):
