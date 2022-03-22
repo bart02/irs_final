@@ -20,7 +20,10 @@ class UR10E(OperateRobot):
     def initPos(self):
         self.movel(self.startPos)
 
-    def setAng(self, n, ang):
+    def setTool(self, a, b):
         joint = self.getja()
-        joint[n] = ang
+        if a:
+            joint[3] = a
+        if b:
+            joint[5] = b
         self.movej(joint)
