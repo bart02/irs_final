@@ -8,13 +8,13 @@ class UR10E(OperateRobot):
         self.initPos()
 
     def setPos(self, dx, dy, dz, ang):
-        if self.startPos['z'] + dz < 0.07:
+        if self.startPos['z'] - dz < 0.07:
             raise Exception('you are dumb')
         t = self.getl()
         offset = [0, 0, 362.5/1000]
         t[0] = self.startPos['x'] + dx + offset[0]
         t[1] = self.startPos['y'] + dy + offset[1]
-        t[2] = self.startPos['z'] + dz + offset[2]
+        t[2] = self.startPos['z'] - dz + offset[2]
         t[3] = 3.015
         t[4] = -0.906
         t[5] = ang
