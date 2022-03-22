@@ -5,8 +5,8 @@ from libs.CVProcessImage import CVProcessImage
 from libs.UR10E import UR10E
 
 # robot initialization
-try: robot = UR10E("172.31.1.25")
-except ConnectionError: robot = UR10E("localhost")
+try: robot = UR10E("localhost")
+except ConnectionError: robot = UR10E("172.31.1.25")
 cam = cv2.VideoCapture(0)
 
 ZONE = {'blue': [-0.89409, 0.26178, 0.33163],
@@ -21,7 +21,7 @@ def main():
 
         # detect cube
         ret, frame = cam.read()
-        im = CVProcessImage(frame=frame)
+        im = CVProcessImage(fn='data_set/img.png')
         rects = im.get_rects(im.blue_thresh if cur == 'blue' else im.red_thresh)
         if len(rects) == 0: break
 
@@ -37,7 +37,7 @@ def main():
         z = ZONE[cur]
         z[2] += height[cur]
         height[cur] += 0.026
-        robot.moveTool(z)
+        robot.moveTool(z[0], z[1], z[2])
         robot.open_gripper()
         robot.moveTool(0.1)
 

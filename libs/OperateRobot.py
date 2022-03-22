@@ -28,4 +28,4 @@ class OperateRobot:
         return self.rob.getj()
 
     def movej(self, j):
-        self.rob.movej(j)
+        self.rob.movej(j, vel=0.2)
