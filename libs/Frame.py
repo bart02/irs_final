@@ -1,12 +1,12 @@
 import cv2
 import numpy as np
 
-from libs.Camera import Camera
+# from libs.Camera import Camera
 from libs.Detail import DetailType, Detail
 
 
 class Frame:
-    def __init__(self, depth_frame: np.ndarray, color_frame: np.ndarray, camera: Camera):
+    def __init__(self, depth_frame: np.ndarray, color_frame: np.ndarray, camera):
         self.depth = depth_frame
         self.bgr = color_frame
         self.camera = camera
@@ -30,7 +30,7 @@ class Frame:
                     angle = angle - 90
                     w, h = h, w
 
-                if 3 * w > h:
+                if 3 * w < h:
                     type = DetailType.LONG
                 elif abs(w - h) < 15:
                     type = DetailType.SQUARE
@@ -42,7 +42,7 @@ class Frame:
                 center_from_frame[1] = -center_from_frame[1]  # FIXME
                 center_from_frame = np.flip(center_from_frame)
 
-                details.append(Detail(type, center_from_frame, w, h, angle, self.depth[y, x]))
+                details.append(Detail(type, center_from_frame, w, h, angle, self.depth[int(y), int(x)]))
 
         return details
 

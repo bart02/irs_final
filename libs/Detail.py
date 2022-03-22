@@ -19,3 +19,7 @@ class Detail:
         self.height = height
         self.angle = angle
         self.z = z
+
+    def __repr__(self):
+        return str(self.__dict__)
+

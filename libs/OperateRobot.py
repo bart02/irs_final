@@ -1,3 +1,5 @@
+from typing import Union
+
 import urx
 
 class OperateRobot:
@@ -17,8 +19,11 @@ class OperateRobot:
         self.rob.close()
 
     # for coordinates
-    def movel(self, point: dict):
-        self.rob.movel((point["x"], point["y"], point["z"], point["rx"], point["ry"], point["rz"]), 0.2, 0.2)
+    def movel(self, point: Union[dict, list]):
+        if isinstance(point, dict):
+            self.rob.movel((point["x"], point["y"], point["z"], point["rx"], point["ry"], point["rz"]), 0.2, 0.2)
+        else:
+            self.rob.movel(point, 0.2, 0.2)
 
     def getl(self):
         return self.rob.getl()
@@ -28,4 +33,4 @@ class OperateRobot:
         return self.rob.getj()
 
     def movej(self, j):
-        self.rob.movej(j, vel=0.2)
+        self.rob.movej(j, vel=0.6)
