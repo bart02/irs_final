@@ -14,6 +14,16 @@ HEIGHT = 0.26
 def main():
     towers: dict[str, list[Detail]] = {'blue': [], 'red': []}
     cur = 'blue'
+
+    # sbivalka
+    frame = camera.take_photo()
+    details = frame.find_str_details(cur)
+    details = list(filter(lambda x: x.z > 5, details))
+    print(details)
+    for d in details:
+        pass
+        # sbit()
+
     while True:
         # move to init state to take picture
         robot.initTool()
@@ -26,7 +36,7 @@ def main():
         detail = details[0]
         print(detail)
 
-        # pick cube
+        # dick cube
         robot.open_gripper()
         robot.rotateTool(-100, detail.angle)
         robot.moveTool(detail.center_m)
@@ -45,6 +55,8 @@ def main():
         robot.moveTool([z[2]], True)
         robot.open_gripper()
         robot.moveTool([0.1])
+
+
 
         # switch zone
         cur = 'blue' if cur == 'red' else 'red'
