@@ -6,7 +6,7 @@ ret, frame = cam.read()
 
 
 
-im = CVProcessImage(frame = frame)
+im = CVProcessImage(fn='../data_set/img.png')
 im.show('w')
 cv2.imshow("l", im.blue_thresh)
 cv2.waitKey()

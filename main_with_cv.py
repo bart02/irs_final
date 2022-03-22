@@ -1,3 +1,5 @@
+import math
+
 import cv2
 
 from libs.CVProcessImage import CVProcessImage
@@ -19,30 +21,46 @@ cam = cv2.VideoCapture(0)
 # dockursim: / ursim - -privileged - -cpus = 1 - -gpus = all
 # arranhs / dockursim: latest
 def main():
-    robot.open_gripper()
+    cur = 'blue'
+    while True:
+        ret, frame = cam.read()
+        im = CVProcessImage(frame = frame)
+        rects = im.get_rects(im.blue_thresh if cur == 'blue' else im.red_thresh)
+        if len(rects) == 0:
+            break
 
-    ret, frame = cam.read()
-    im = CVProcessImage(frame=frame)
-    rects = im.get_rects(im.blue_thresh)
+        ZERO = 44.32 * ( math.pi/ 180)
+        robot.open_gripper()
+        # get z off-set pose
+        x = rects[0][0][0]
+        y = rects[0][0][1]
+        robot.setAng(3, math.radians(-100))
+        print(rects[0][1]*180/math.pi)
+        robot.setAng(5, ZERO - rects[0][1])
+        robot.setPos(x, y, 0)
+        robot.close_gripper()
 
-    # get z off-set pose
-    x = rects[0][0][0]
-    y = rects[0][0][1]
-    z = 0 #z off-set
-    print(x,y)
-    robot.setPos(x, y, z, 0)
-    robot.close_gripper()
-    #####
+        #####
+        robot.setPos(0, 0, 0.2)
+        robot.setAng(5, -ZERO)
 
-    robot.setPos(0, 0, 0.1, 0)
+        t = robot.getl()
+        if cur == 'blue':
+            t[0] = -0.89409
+            t[1] = 0.26178
+            t[2] = 0.33163
+        else:
+            t[0] = -0.705
+            t[1] = 0.260930
+            t[2] = 0.332240
+        robot.movel_list(t)
 
-    x = -0.87409
-    y = 0.25178
-    z = 0.33163
-    rx= 3.015
-    ry = -0.906
-    rz = 0
-    robot.movel_list(x, y, z, 0)
+        robot.open_gripper()
+        robot.setPos(0, 0, 0.2)
+        if cur == 'blue':
+            cur = 'red'
+        else:
+            cur = 'blue'
     ######
     # end main
     robot.close()

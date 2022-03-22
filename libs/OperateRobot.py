@@ -33,3 +33,9 @@ class OperateRobot:
     def close_gripper(self):
         self.rob.send_program('set_tool_digital_out(0, False)')
         self.rob.send_program('set_tool_digital_out(1, True)')
+
+    def movej(self, j):
+        self.rob.movej(j, vel=0.2)
+
+    def getja(self):
+        return self.rob.getj()
