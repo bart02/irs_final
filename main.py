@@ -31,9 +31,9 @@ def main():
 
     while True:
         # move to init state to take picture
-        robot.initTool()
+        robot.initPos()
 
-        # detect cube
+        # detect current_color detail position
         frame = camera.take_photo()
         details = frame.find_str_details(current_color)
         if len(frame.find_all_details()) == 0:
@@ -44,27 +44,25 @@ def main():
         detail = details[0]
         print(detail)
 
-        # dick cube
+        # pick detail
         robot.open_gripper()
-        robot.rotateTool(-100, detail.angle)
-        robot.moveTool(*detail.center_m, 0)
+        robot.setAng(-100.0, detail.angle)
+        robot.setPos(*detail.center_m, 0)
         robot.close_gripper()
 
-        # go upper and rotate
-        robot.moveTool(0.1)
-        robot.rotateTool(None, 0)
+        # lift and rotate the detail
+        robot.setPos(0.1)
+        robot.initAng()
 
-        # place cube to zone
+        # place detail in current_color zone
         z = ZONE[current_color].copy()
         z[2] += len(towers[current_color]) * HEIGHT
-        print(z)
-        robot.moveTool(*z, True)
+        robot.setPos(*z, True)
         robot.open_gripper()
-        robot.moveTool(0.1)
+        robot.setPos(0.1)
 
+        # add new detail in current_color tower and switch zone
         towers[current_color].append(detail)
-
-        # switch zone
         current_color = 'blue' if current_color == 'red' else 'red'
 
     robot.close()
