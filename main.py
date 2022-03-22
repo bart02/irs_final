@@ -1,7 +1,7 @@
 from libs.UR10E import UR10E
 
-robot = UR10E("localhost")
-#robot = UR10E("172.31.1.25")
+#robot = UR10E("localhost")
+robot = UR10E("172.31.1.25")
 
 # docker
 # run - d - -name = "dockursim" - e
@@ -16,10 +16,10 @@ def main():
 
     robot.open_gripper()
     # get z off-set pose
-    x = 0
-    y = 0
+    x = -0.09416667
+    y = 0.13416667
     z = 0 #z off-set
-    robot.setPos(x, y, z, 0)
+    # robot.setPos(x, y, z, 0)
     robot.close_gripper()
 
     # end main

@@ -5,7 +5,7 @@ import numpy as np
 
 
 class CVProcessImage:
-    PIXEL_TO_MM_COEFF = 50 / 132
+    PIXEL_TO_MM_COEFF = 50 / 60
 
     def __init__(self, fn: str = None, frame: np.ndarray = None):
         if frame is not None:
@@ -18,7 +18,7 @@ class CVProcessImage:
 
     @property
     def blue_thresh(self):
-        return cv2.inRange(self.hsv, (90, 0, 0), (180, 255, 255))
+        return cv2.inRange(self.hsv, (90, 50, 50), (180, 255, 255))
 
     def get_rects(self, thresh):
         contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -33,6 +33,9 @@ class CVProcessImage:
                 center = np.array((int(x), int(y)))
                 center_from_frame: np.ndarray = center - self.frame_center
                 center_from_frame[1] = -center_from_frame[1]
+                center_from_frame = np.flip(center_from_frame)
+
+                print(center)
                 center_from_frame_mm: np.ndarray = center_from_frame * self.PIXEL_TO_MM_COEFF / 1000  # in meters
 
                 rects.append((center_from_frame_mm, angle))
