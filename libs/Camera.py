@@ -1,6 +1,7 @@
 import time
 from typing import Optional
 
+import cv2
 import numpy as np
 
 from libs.Frame import Frame
@@ -32,3 +33,12 @@ class Camera:
     @property
     def frame_center(self):
         return np.array((640 // 2, 480 // 2))
+
+
+class DummyCamera(Camera):
+    def __init__(self, fn):
+        self._image = cv2.imread(fn)
+        pass
+
+    def _take_photo(self) -> Optional[Frame]:
+        return Frame(cv2.cvtColor(self._image, cv2.COLOR_BGR2GRAY), self._image, self)

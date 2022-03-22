@@ -1,4 +1,4 @@
-from libs.Camera import Camera
+from libs.Camera import Camera, DummyCamera
 from libs.Detail import Detail
 from libs.UR10E import UR10E
 
@@ -6,7 +6,7 @@ from libs.UR10E import UR10E
 try: robot = UR10E("localhost")
 except ConnectionError: robot = UR10E("172.31.1.25")
 
-camera = Camera()
+camera = DummyCamera()
 
 ZONE = {'blue': [-0.89409, 0.26178, 0.33163],
         'red': [-0.705, 0.260930, 0.332240]}
