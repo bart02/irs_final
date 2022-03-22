@@ -9,7 +9,6 @@ class CVProcessImage:
 
     def __init__(self, fn: str = None, frame: np.ndarray = None):
         if frame is not None:
-
             self.im = frame.copy()
         elif fn is not None:
             self.im = cv2.imread(fn)
@@ -20,6 +19,10 @@ class CVProcessImage:
     @property
     def blue_thresh(self):
         return cv2.inRange(self.hsv, (90, 50, 50), (180, 255, 255))
+
+    @property
+    def red_thresh(self):
+        return cv2.inRange(self.hsv, (0, 50, 50), (40, 255, 255))
 
     def get_rects(self, thresh):
         contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
