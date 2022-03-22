@@ -11,7 +11,7 @@ class UR10E(OperateRobot):
         if self.startPos['z'] + dz < 0.07:
             raise Exception('you are dumb')
         t = self.getl()
-        offset = []
+        offset = [0, 0, 0]
         t[0] = self.startPos['x'] + dx + offset[0]
         t[1] = self.startPos['y'] + dy + offset[1]
         t[2] = self.startPos['z'] + dz + offset[2]
