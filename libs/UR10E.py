@@ -15,6 +15,7 @@ class UR10E(OperateRobot):
         t[0] = self.startPos['x'] + dx + offset[0]
         t[1] = self.startPos['y'] + dy + offset[1]
         t[2] = self.startPos['z'] + dz + offset[2]
+
         self.movel_list(t)
 
     def initPos(self):
