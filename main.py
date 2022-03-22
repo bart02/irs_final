@@ -3,6 +3,7 @@ from libs.UR10E import UR10E
 #robot = UR10E("localhost")
 robot = UR10E("172.31.1.25")
 
+
 # docker
 # run - d - -name = "dockursim" - e
 # ROBOT_MODEL = UR10 - p

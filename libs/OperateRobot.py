@@ -5,6 +5,7 @@ import time
 
 class OperateRobot:
 
+
     def __init__(self, ip):
         self.rob = urx.Robot(ip)
 

@@ -9,6 +9,7 @@ class CVProcessImage:
 
     def __init__(self, fn: str = None, frame: np.ndarray = None):
         if frame is not None:
+
             self.im = frame.copy()
         elif fn is not None:
             self.im = cv2.imread(fn)
