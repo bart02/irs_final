@@ -1,19 +1,20 @@
 import math
-
+import time
 import cv2
 
 
 from libs.CVProcessImage import CVProcessImage
 from libs.UR10E import UR10E
 
-robot = UR10E("localhost")
-#robot = UR10E("172.31.1.25")
+#robot = UR10E("localhost")
+robot = UR10E("172.31.1.25")
 
 cam = cv2.VideoCapture(0)
 
 
 blueZone = [-0.89409, 0.26178, 0.33163]
 redZone = [-0.705, 0.260930, 0.332240]
+
 # docker
 # run - d - -name = "dockursim" - e
 # ROBOT_MODEL = UR10 - p
@@ -28,11 +29,13 @@ def main():
     red_height = 0
     cur = 'blue'
     while True:
+        robot.initPos()
         # detect cube
         ret, frame = cam.read()
         im = CVProcessImage(frame = frame)
         rects = im.get_rects(im.blue_thresh if cur == 'blue' else im.red_thresh)
         if len(rects) == 0:
+            print('exitt')
             break
 
         # pick cube
@@ -51,15 +54,16 @@ def main():
         if cur == 'blue':
             zone = blueZone
             plus = blue_height
-            blue_height += 0.25
+            blue_height += 0.026
         else:
             zone = redZone
             plus = red_height
-            red_height += 0.25
+            red_height += 0.026
         for i in range(3): r[i] = zone[i]
-        zone[2] += plus
-        robot.movel_list(zone)
+        r[2] += plus
+        robot.movel_list(r)
         robot.open_gripper()
+        time.sleep(2)
         robot.setPos(0, 0, 0.2)
 
         # switch zone

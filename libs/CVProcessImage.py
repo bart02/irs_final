@@ -33,7 +33,7 @@ class CVProcessImage:
 
                 (x, y), (w, h), angle = rect
                 if w > h:
-                    angle = 90 - angle
+                    # angle = 90 - angle
                     w, h = h, w
                 if 3 * w > h:
                     print("long detail")
