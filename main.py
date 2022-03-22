@@ -13,11 +13,11 @@ HEIGHT = 0.26
 
 def main():
     towers: dict[str, list[Detail]] = {'blue': [], 'red': []}
-    cur = 'blue'
+    current_color = 'blue'
 
     # sbivalka
     frame = camera.take_photo()
-    details = frame.find_str_details(cur)
+    details = frame.find_str_details(current_color)
     details = list(filter(lambda x: x.z > 5, details))
     print(details)
     for d in details:
@@ -30,9 +30,12 @@ def main():
 
         # detect cube
         frame = camera.take_photo()
-        details = frame.find_str_details(cur)
-        if len(details) == 0:
+        details = frame.find_str_details(current_color)
+        if len(frame.find_all_details()) == 0:
             break
+        if len(details) == 0:
+            current_color = 'blue' if current_color == 'red' else 'red'
+            continue
         detail = details[0]
         print(detail)
 
@@ -48,18 +51,18 @@ def main():
         robot.rotateTool(None, 0)
 
         # place cube to zone
-        z = ZONE[cur].copy()
-        z[2] += len(towers[cur]) * HEIGHT
+        z = ZONE[current_color].copy()
+        z[2] += len(towers[current_color]) * HEIGHT
         print(z)
         robot.moveTool(z[0:2], True)
         robot.moveTool([z[2]], True)
         robot.open_gripper()
         robot.moveTool([0.1])
 
-
+        towers[current_color].append(detail)
 
         # switch zone
-        cur = 'blue' if cur == 'red' else 'red'
+        current_color = 'blue' if current_color == 'red' else 'red'
 
     robot.close()
 
