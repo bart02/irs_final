@@ -18,7 +18,7 @@ class CVProcessImage:
 
     @property
     def blue_thresh(self):
-        return cv2.inRange(self.hsv, (100, 100, 50), (180, 255, 255))
+        return cv2.inRange(self.hsv, (90, 0, 0), (180, 255, 255))
 
     def get_rects(self, thresh):
         contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)

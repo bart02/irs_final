@@ -2,14 +2,14 @@ import time
 from libs.OperateCamera import OperateCamera
 import cv2
 
-depth = OperateCamera()
-cam = cv2.VideoCapture(2)
+# depth = OperateCamera()
+cam = cv2.VideoCapture(0)
 
 
-def catch_cloud(fn: str):
-    cloud = depth.catch_frame()
-    depth.save(fn)
-    return cloud
+# def catch_cloud(fn: str):
+#     cloud = depth.catch_frame()
+#     depth.save(fn)
+#     return cloud
 
 
 while True:
@@ -22,7 +22,7 @@ while True:
     if key == ord('s'):
         t = time.time()
         cv2.imwrite(f'{t}.jpg', frame)
-        catch_cloud(f'{t}.ply')
+        # catch_cloud(f'{t}.ply')
 
 cam.release()
 cv2.destroyAllWindows()
