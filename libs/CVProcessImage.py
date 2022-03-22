@@ -32,6 +32,12 @@ class CVProcessImage:
                 rect = cv2.minAreaRect(c)
 
                 (x, y), (w, h), angle = rect
+                if w > h:
+                    angle = 90 - angle
+                    w, h = h, w
+                if 3 * w > h:
+                    print("long detail")
+                
                 angle = math.radians(angle)
 
                 center = np.array((int(x), int(y)))
