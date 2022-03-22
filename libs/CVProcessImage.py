@@ -1,3 +1,5 @@
+import math
+
 import cv2
 import numpy as np
 
@@ -26,12 +28,12 @@ class CVProcessImage:
                 rect = cv2.minAreaRect(c)
 
                 (x, y), (w, h), angle = rect
-                angle: float
+                angle = math.radians(angle)
 
                 center = np.array((int(x), int(y)))
                 center_from_frame: np.ndarray = center - self.frame_center
                 center_from_frame[1] = -center_from_frame[1]
-                center_from_frame_mm: np.ndarray = center_from_frame * self.PIXEL_TO_MM_COEFF
+                center_from_frame_mm: np.ndarray = center_from_frame * self.PIXEL_TO_MM_COEFF / 1000  # in meters
 
                 rects.append((center_from_frame_mm, angle))
         return rects
