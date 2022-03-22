@@ -8,9 +8,9 @@ class CVProcessImage:
     PIXEL_TO_MM_COEFF = 50 / 132
 
     def __init__(self, fn: str = None, frame: np.ndarray = None):
-        if frame:
+        if frame is not None:
             self.im = frame.copy()
-        elif fn:
+        elif fn is not None:
             self.im = cv2.imread(fn)
         else:
             raise Exception('You are pidor')
