@@ -19,9 +19,9 @@ class OperateRobot:
         self.rob.close()
 
     # for coordinates
-    def movel(self, point: Union[dict, list]):
+    def movel(self, point: Union[dict, list], velocity):
         if isinstance(point, dict):
-            self.rob.movel((point["x"], point["y"], point["z"], point["rx"], point["ry"], point["rz"]), 0.2, 0.2)
+            self.rob.movel((point["x"], point["y"], point["z"], point["rx"], point["ry"], point["rz"]), 0.2, velocity)
         else:
             self.rob.movel(point, 0.2, 0.2)
 
@@ -29,8 +29,8 @@ class OperateRobot:
         return self.rob.getl()
 
     # for joints
+    def movej(self, j, velocity):
+        self.rob.movej(j, 0.2, velocity)
+
     def getj(self):
         return self.rob.getj()
-
-    def movej(self, j):
-        self.rob.movej(j, vel=0.6)
