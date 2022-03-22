@@ -22,3 +22,4 @@ class UR10E(OperateRobot):
 
     def initPos(self):
         self.movel(self.startPos)
+
