@@ -14,7 +14,7 @@ class UR10E(OperateRobot):
         offset = [-70/1000, 10/1000, -362.5/1000]
         t[0] = self.startPos['x'] + dx + offset[0]
         t[1] = self.startPos['y'] + dy + offset[1]
-        t[2] = self.startPos['z'] - dz + offset[2]
+        t[2] = self.startPos['z'] + dz + offset[2]
         t[3] = 3.015
         t[4] = -0.906
         t[5] = ang

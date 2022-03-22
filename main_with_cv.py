@@ -32,7 +32,18 @@ def main():
     print(x,y)
     robot.setPos(x, y, z, 0)
     robot.close_gripper()
+    #####
 
+    robot.setPos(0, 0, 0.1, 0)
+
+    x = -0.87409
+    y = 0.25178
+    z = 0.33163
+    rx= 3.015
+    ry = -0.906
+    rz = 0
+    robot.movel_list(x, y, z, 0)
+    ######
     # end main
     robot.close()
 

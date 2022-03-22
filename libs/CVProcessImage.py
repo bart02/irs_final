@@ -5,7 +5,7 @@ import numpy as np
 
 
 class CVProcessImage:
-    PIXEL_TO_MM_COEFF = 0.0008
+    PIXEL_TO_MM_COEFF = 0.00082
 
     def __init__(self, fn: str = None, frame: np.ndarray = None):
         if frame is not None:
