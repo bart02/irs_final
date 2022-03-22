@@ -3,7 +3,7 @@ from libs.OperateCamera import OperateCamera
 import cv2
 
 depth = OperateCamera()
-cam = cv2.VideoCapture(0)
+cam = cv2.VideoCapture(2)
 
 
 def catch_cloud(fn: str):
