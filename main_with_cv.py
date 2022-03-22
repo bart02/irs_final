@@ -24,6 +24,8 @@ redZone = [-0.705, 0.260930, 0.332240]
 # dockursim: / ursim - -privileged - -cpus = 1 - -gpus = all
 # arranhs / dockursim: latest
 def main():
+    blue_height = 0
+    red_height = 0
     cur = 'blue'
     while True:
         # detect cube
@@ -46,9 +48,16 @@ def main():
         robot.setPos(0, 0, 0.2)
         robot.setTool(None, ZERO)
         r = robot.getl()
-        if cur == 'blue': zone = blueZone
-        else: zone = redZone
+        if cur == 'blue':
+            zone = blueZone
+            plus = blue_height
+            blue_height += 0.25
+        else:
+            zone = redZone
+            plus = red_height
+            red_height += 0.25
         for i in range(3): r[i] = zone[i]
+        zone[2] += plus
         robot.movel_list(zone)
         robot.open_gripper()
         robot.setPos(0, 0, 0.2)
