@@ -1,79 +1,50 @@
-import math
-import time
 import cv2
 
-
+# connect to robot
 from libs.CVProcessImage import CVProcessImage
 from libs.UR10E import UR10E
 
-#robot = UR10E("localhost")
-robot = UR10E("172.31.1.25")
-
+# robot initialization
+try: robot = UR10E("172.31.1.25")
+except ConnectionError: robot = UR10E("localhost")
 cam = cv2.VideoCapture(0)
 
+ZONE = {'blue': [-0.89409, 0.26178, 0.33163],
+        'red': [-0.705, 0.260930, 0.332240]}
 
-blueZone = [-0.89409, 0.26178, 0.33163]
-redZone = [-0.705, 0.260930, 0.332240]
-
-# docker
-# run - d - -name = "dockursim" - e
-# ROBOT_MODEL = UR10 - p
-# 8080: 8080
-# -p
-# 29999: 29999 - p
-# 30001 - 30004: 30001 - 30004 - v / mnt / c / Users / Viktor / PycharmProjects / irs_final: / ursim / programs - v
-# dockursim: / ursim - -privileged - -cpus = 1 - -gpus = all
-# arranhs / dockursim: latest
 def main():
-    blue_height = 0
-    red_height = 0
+    height = {'blue': 0, 'red': 0}
     cur = 'blue'
     while True:
-        robot.initPos()
+        # move to init state to take picture
+        robot.initTool()
+
         # detect cube
         ret, frame = cam.read()
-        im = CVProcessImage(frame = frame)
+        im = CVProcessImage(frame=frame)
         rects = im.get_rects(im.blue_thresh if cur == 'blue' else im.red_thresh)
-        if len(rects) == 0:
-            print('exitt')
-            break
+        if len(rects) == 0: break
 
         # pick cube
-        ZERO = -44.32 * ( math.pi/ 180)
         robot.open_gripper()
-        x = rects[0][0][0]
-        y = rects[0][0][1]
-        robot.setTool(math.radians(-100), -(ZERO + rects[0][1]))
-        robot.setPos(x, y, 0)
+        robot.rotateTool(-100, rects[0][1])
+        robot.moveTool(rects[0][0][0], rects[0][0][1], 0)
         robot.close_gripper()
 
         # place cube to zone
-        robot.setPos(0, 0, 0.2)
-        robot.setTool(None, ZERO)
-        r = robot.getl()
-        if cur == 'blue':
-            zone = blueZone
-            plus = blue_height
-            blue_height += 0.026
-        else:
-            zone = redZone
-            plus = red_height
-            red_height += 0.026
-        for i in range(3): r[i] = zone[i]
-        r[2] += plus
-        robot.movel_list(r)
+        robot.moveTool(0.1)
+        robot.rotateTool(None, 0)
+        z = ZONE[cur]
+        z[2] += height[cur]
+        height[cur] += 0.026
+        robot.moveTool(z)
         robot.open_gripper()
-        time.sleep(2)
-        robot.setPos(0, 0, 0.2)
+        robot.moveTool(0.1)
 
         # switch zone
-        if cur == 'blue': cur = 'red'
-        else: cur = 'blue'
-    ######
-    # end main
+        cur = 'blue' if cur == 'red' else 'blue'
+
     robot.close()
-
-
 
 if __name__ == "__main__":
     main()

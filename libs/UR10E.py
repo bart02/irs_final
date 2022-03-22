@@ -1,30 +1,27 @@
 from libs.OperateRobot import OperateRobot
-
-VELOCITY = 0.2
+from math import radians
 
 class UR10E(OperateRobot):
-    startPos = {"x": -0.790450, "y": -0.172270, "z": 0.7, "rx": 1.487, "ry": 3.536, "rz": -0.669}
+    BASE = {"x": -790.4, "y": -172.3, "z": 700, "rx": 1.487, "ry": 3.536, "rz": -0.669}
+    OFFSET = [-70, 15, -362.5]
 
     def __init__(self, ip):
         super().__init__(ip)
-      #  self.initPos()
 
-    def setPos(self, dx, dy, dz):
-        if self.startPos['z'] - dz < 0.07:
-            raise Exception('you are dumb')
+    def moveTool(self, *xyz):
         t = self.getl()
-        offset = [-70/1000, 15/1000, -362.5/1000]
-        t[0] = self.startPos['x'] + dx + offset[0]
-        t[1] = self.startPos['y'] + dy + offset[1]
-        t[2] = self.startPos['z'] + dz + offset[2]
+        if len(xyz) == 3:
+            t['x'] = xyz[0] + (self.OFFSET[0] + self.BASE[0]) / 1000
+            t['y'] = xyz[1] + (self.OFFSET[1] + self.BASE[1]) / 1000
+            t['z'] = xyz[2] + (self.OFFSET[2] + self.BASE[2]) / 1000
+        else: t['z'] = xyz[0] + (self.OFFSET[2] + self.BASE[2]) / 1000
+        self.movel(t)
 
-        self.movel_list(t, vel=VELOCITY)
+    def initTool(self):
+        self.movel(self.BASE)
 
-    def initPos(self):
-        self.movel(self.startPos, vel=VELOCITY)
-
-    def setTool(self, a, b):
-        joint = self.getja()
-        if a: joint[3] = a
-        if b: joint[5] = b
-        self.movej(joint, vel=VELOCITY)
+    def rotateTool(self, a, b):
+        joint = self.getj()
+        if a: joint[3] = radians(a)
+        if b: joint[5] = radians(-b - 44.32)
+        self.movej(joint)
