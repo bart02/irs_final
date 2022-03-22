@@ -5,7 +5,7 @@ import numpy as np
 
 
 class CVProcessImage:
-    PIXEL_TO_MM_COEFF = 50 / 60
+    PIXEL_TO_MM_COEFF = 385  / 330
 
     def __init__(self, fn: str = None, frame: np.ndarray = None):
         if frame is not None:
@@ -36,7 +36,7 @@ class CVProcessImage:
                 center_from_frame[1] = -center_from_frame[1]
                 center_from_frame = np.flip(center_from_frame)
 
-                print(center)
+                print(center_from_frame)
                 center_from_frame_mm: np.ndarray = center_from_frame * self.PIXEL_TO_MM_COEFF / 1000  # in meters
 
                 rects.append((center_from_frame_mm, angle))

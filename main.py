@@ -17,10 +17,10 @@ def main():
 
     robot.open_gripper()
     # get z off-set pose
-    x = -0.09416667
-    y = 0.13416667
+    x = -0.133
+    y = -0.259
     z = 0 #z off-set
-    # robot.setPos(x, y, z, 0)
+    #robot.setPos(x, y, z, 0)
     robot.close_gripper()
 
     # end main
