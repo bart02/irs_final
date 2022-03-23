@@ -21,12 +21,13 @@ UPPER_ZONE = [-0.755, 0.26, 0.7, 1.487, 3.536,  -0.669]
 
 HEIGHT = 0.025
 
-TABLE_HEIGHT = 520
+TABLE_HEIGHT = 527
 
 TOWER_PICTURE_OFFSET = 200 / 1000
 flag = False
 
 def main():
+    global flag
     towers: dict[str, list[Detail]] = {'blue': [], 'red': []}
     tower_height = {'blue': 0, 'red': 0}
     current_color = 'blue'
@@ -63,7 +64,7 @@ def main():
 
             robot.close_gripper()
             robot.setAng(47.22, detail.angle)
-            robot.pushHeap(detail.height_m, detail.width_m, detail.center_m, 0.005, flag)
+            robot.pushHeap(detail.height_m, detail.width_m, detail.center_m, flag)
             if not(flag) : flag= True
             else: flag = False
             continue
