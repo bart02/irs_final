@@ -51,10 +51,16 @@ class UR10E(OperateRobot):
         joint[5] = radians(self.j5init)
         self.movej(joint, VELOCITY)
 
-    def pushHeap(self, width, height, dxy, pushHeight):
+    def pushHeap(self, width, height, dxy, pushHeight, flag):
         r = sqrt(width ** 2 + height ** 2) / 2 * PUSH_HEAP_SCALE
         i = intersection([dxy[0], dxy[1]], r, [0, 0], [dxy[0], dxy[1]])
-        start = i[0]
-        end = i[1]
+
+        further = i[0] if abs(i[0][0]) > abs(i[1][0]) else i[1]
+        near = i[1] if further == i[0] else i[0]
+
+        if flag:
+            start = further
+            end = near
+
         self.setPos(*start, pushHeight)
         self.setPos(*end, pushHeight)
