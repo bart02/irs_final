@@ -10,7 +10,7 @@ BASE = {'x': -790.4 / 1000,
         'ry':  3.536,
         'rz': -0.669}
 
-OFFSET = {'x': -70 / 1000,
+OFFSET = {'x': -55 / 1000,
           'y':  15 / 1000,
           'z': -362 / 1000}
 
@@ -20,9 +20,11 @@ class UR10E(OperateRobot):
     def __init__(self, ip):
         super().__init__(ip)
 
-    def setPos(self, *xyz, abc=False):
+    def setPos(self, *xyz):
         t = self.getl()
-        if len(xyz) == 3:
+        if len(xyz) == 3 or len(xyz) == 1: abc = False
+        else: abc = xyz[-1]
+        if len(xyz) > 2:
             t[0] = xyz[0] + ((OFFSET['x'] + BASE['x']) if not abc else 0)
             t[1] = xyz[1] + ((OFFSET['y'] + BASE['y']) if not abc else 0)
             self.movel(t, VELOCITY)

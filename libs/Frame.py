@@ -18,7 +18,6 @@ class Frame:
         contours, _ = cv2.findContours(binarized, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
         details = []
-        contours = sorted(contours, key=cv2.contourArea, reverse=True)
 
         for c in contours:
             if cv2.contourArea(c) > 100:
@@ -30,12 +29,16 @@ class Frame:
                     angle = angle - 90
                     w, h = h, w
 
-                if 3 * w < h:
+                if cv2.contourArea(c) / (w * h):
+                    type = DetailType.HEAP
+                elif 3 * w < h:
                     type = DetailType.LONG
                 elif abs(w - h) < 15:
                     type = DetailType.SQUARE
-                else:
+                elif 25 < w < 45 and 50 < h < 70:
                     type = DetailType.DEFAULT
+                else:
+                    type = DetailType.HEAP
 
                 center = np.array((int(x), int(y)))
                 center_from_frame: np.ndarray = center - self.camera.frame_center
@@ -44,6 +47,7 @@ class Frame:
 
                 details.append(Detail(type, center_from_frame, w, h, angle, self.depth[int(y), int(x)]))
 
+        details.sort(key=lambda x: x.type.value)
         return details
 
     def find_blue_details(self):
