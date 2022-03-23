@@ -35,8 +35,10 @@ class Frame:
                     type = DetailType.LONG
                 elif abs(w - h) < 15:
                     type = DetailType.SQUARE
-                else:
+                elif 25 < w < 45 and 50 < h < 70:
                     type = DetailType.DEFAULT
+                else:
+                    type = DetailType.HEAP
 
                 center = np.array((int(x), int(y)))
                 center_from_frame: np.ndarray = center - self.camera.frame_center
