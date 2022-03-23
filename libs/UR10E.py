@@ -14,7 +14,7 @@ OFFSET = {'x': -55 / 1000,
           'y':  15 / 1000,
           'z': -362 / 1000}
 
-VELOCITY = 0.2
+VELOCITY = 0.4
 
 PUSH_HEAP_SCALE = 1.3
 
