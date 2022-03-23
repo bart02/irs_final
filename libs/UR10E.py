@@ -1,5 +1,6 @@
 from libs.OperateRobot import OperateRobot
 from math import radians, sqrt
+from libs.AGLA import intersection
 
 BASE = {'x': -790.4 / 1000,
         'y': -172.3 / 1000,
@@ -35,37 +36,25 @@ class UR10E(OperateRobot):
     def initPos(self):
         self.movel(BASE, VELOCITY)
 
+    j3init = -147.22
+    j5init = - 44.32
+
     def setAng(self, a, b):
         joint = self.getj()
-        joint[3] = radians(a)
-        joint[5] = radians(-b - 44.32)
+        joint[3] = radians(a + self.j3init)
+        joint[5] = radians(-b + self.j5init)
         self.movej(joint, VELOCITY)
 
     def initAng(self):
         joint = self.getj()
-        joint[5] = radians(-44.32)
+        joint[3] = radians(self.j3init)
+        joint[5] = radians(self.j5init)
         self.movej(joint, VELOCITY)
-
-    def intersection(self, center, circle_radius, pt1, pt2):
-        (p1x, p1y), (p2x, p2y), (cx, cy) = pt1, pt2, center
-        (x1, y1), (x2, y2) = (p1x - cx, p1y - cy), (p2x - cx, p2y - cy)
-        dx, dy = (x2 - x1), (y2 - y1)
-        dr = (dx ** 2 + dy ** 2) ** .5
-        big_d = x1 * y2 - x2 * y1
-        discriminant = circle_radius ** 2 * dr ** 2 - big_d ** 2
-        intersections = [
-            (cx + (big_d * dy + sign * (-1 if dy < 0 else 1) * dx * discriminant ** .5) / dr ** 2,
-             cy + (-big_d * dx + sign * abs(dy) * discriminant ** .5) / dr ** 2)
-            for sign in ((1, -1) if dy < 0 else (-1, 1))]
-        if len(intersections) == 2 and abs(discriminant) <= 1e-9: return [intersections[0]]
-        else: return intersections
 
     def pushHeap(self, width, height, dxy, pushHeight):
         r = sqrt(width ** 2 + height ** 2) / 2 * PUSH_HEAP_SCALE
-        i = self.intersection([dxy[0], dxy[1]], r, [0, 0], [dxy[0], dxy[1]])
-
+        i = intersection([dxy[0], dxy[1]], r, [0, 0], [dxy[0], dxy[1]])
         start = i[0]
         end = i[1]
-
         self.setPos(*start, pushHeight)
         self.setPos(*end, pushHeight)

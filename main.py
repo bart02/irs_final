@@ -1,5 +1,4 @@
 import time
-import cv2
 
 from libs.Camera import Camera, DummyCamera
 from libs.Detail import Detail, DetailType
@@ -12,9 +11,8 @@ try:
     camera = Camera()
     print("connected to cam")
 except ConnectionError:
-    pass
-# robot = UR10E('localhost')
-# camera = DummyCamera(fn='data_set/1647866163.3144376.jpg')
+    robot = UR10E('localhost')
+    camera = DummyCamera(fn='data_set/1647866163.3144376.jpg')
 
 ZONE = {'blue': [-0.89409, 0.26178, 0.33163],
         'red': [-0.70500, 0.26093, 0.33224]}
@@ -70,7 +68,7 @@ def main():
 
         # pick detail
         robot.open_gripper()
-        robot.setAng(-100.0, detail.angle)
+        robot.setAng(47.22, detail.angle)
         robot.setPos(*detail.center_m, visota)
         robot.close_gripper()
 
