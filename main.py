@@ -20,10 +20,10 @@ ZONE = {'blue': [-0.89409, 0.26178, 0.33163],
 UPPER_ZONE = [-0.755, 0.26, 0.7, 1.487, 3.536,  -0.669]
 
 HEIGHT = 0.025
-
 TABLE_HEIGHT = 527
-
 TOWER_PICTURE_OFFSET = 200 / 1000
+MEASURE_HEIGHT = False
+
 flag = False
 
 def main():
@@ -96,14 +96,17 @@ def main():
         towers[current_color].append(detail)
 
         # add new detail in current_color tower and switch zone
-        robot.movel(UPPER_ZONE, 0.2)
-        tower_frame = camera.take_photo().depth
-        tower_frame[tower_frame > 600] = 999999
-        tower_frame[tower_frame < 300] = 999999
+        if MEASURE_HEIGHT:
+            robot.movel(UPPER_ZONE, 0.2)
+            tower_frame = camera.take_photo().depth
+            tower_frame[tower_frame > 600] = 999999
+            tower_frame[tower_frame < 300] = 999999
 
-        tower_height['red'] = (TABLE_HEIGHT - tower_frame[20:200, 200:400].min())
-        tower_height['blue'] = (TABLE_HEIGHT - tower_frame[220:400, 200:400].min())
-        print('Tower height', tower_height)
+            tower_height['red'] = (TABLE_HEIGHT - tower_frame[20:200, 200:400].min())
+            tower_height['blue'] = (TABLE_HEIGHT - tower_frame[220:400, 200:400].min())
+            print('Tower height', tower_height)
+        else:
+            tower_height[current_color] = len(towers[current_color]) * HEIGHT
 
         current_color = 'blue' if current_color == 'red' else 'red'
 
