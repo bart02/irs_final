@@ -49,10 +49,13 @@ def main():
             details.pop(0)
             detail = details[0]
 
+        visota = (detail.z - 530) / 20 * 0.025
+        print(visota)
+
         # pick detail
         robot.open_gripper()
         robot.setAng(-100.0, detail.angle)
-        robot.setPos(*detail.center_m, 0)
+        robot.setPos(*detail.center_m, visota)
         robot.close_gripper()
 
         # lift and rotate the detail
