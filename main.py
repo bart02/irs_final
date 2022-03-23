@@ -16,23 +16,15 @@ ZONE = {'blue': [-0.89409, 0.26178, 0.33163],
 
 HEIGHT = 0.025
 
+TOWER_PICTURE_OFFSET = 30 / 1000
+
 def main():
     towers: dict[str, list[Detail]] = {'blue': [], 'red': []}
     current_color = 'blue'
-
-    #sbivalka
-    frame = camera.take_photo()
-    details = frame.find_str_details(current_color)
-    details = list(filter(lambda x: x.z > 5, details))
-    # print(details)
-    for d in details:
-        pass
-
-        # sbit()
-
     while True:
         # move to init state to take picture
         robot.initPos()
+
         # detect current_color detail position
         frame = camera.take_photo()
         details = frame.find_str_details(current_color)
@@ -46,8 +38,9 @@ def main():
 
 
         if (detail.type == "HEAP"):
-            robot.pushHeap(detail.height, detail.width, detail.center_m)
-        if (detail.type=="LONG"):
+            robot.pushHeap(detail.height_m, detail.width_m, detail.center_m, 0.005)
+            continue
+        while (detail.type=="LONG"):
             details.pop(0)
             detail = details[0]
 
@@ -62,7 +55,7 @@ def main():
         robot.close_gripper()
 
         # lift and rotate the detail
-        robot.setPos(0.1)
+        robot.setPos(len(towers[current_color]))
         robot.initAng()
 
         # place detail in current_color zone
@@ -71,7 +64,7 @@ def main():
         robot.setPos(*z, True)
         robot.open_gripper()
         time.sleep(1)
-        robot.setPos(0.1)
+        robot.setPos(-790.4 / 1000, -172.3 / 1000 + TOWER_PICTURE_OFFSET, 700.1 / 1000, True)
 
         # add new detail in current_color tower and switch zone
         towers[current_color].append(detail)
