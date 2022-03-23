@@ -24,7 +24,7 @@ def main():
     frame = camera.take_photo()
     details = frame.find_str_details(current_color)
     details = list(filter(lambda x: x.z > 5, details))
-    print(details)
+    # print(details)
     for d in details:
         pass
 
@@ -43,15 +43,18 @@ def main():
             current_color = 'blue' if current_color == 'red' else 'red'
             continue
         detail = details[0]
-        print(detail)
 
-        if (detail.z < 500 or detail.type=="LONG"):
+
+        if (detail.type == "HEAP"):
+            robot.pushHeap(detail.height, detail.width, detail.center_m)
+        if (detail.type=="LONG"):
             details.pop(0)
             detail = details[0]
 
-        visota = (detail.z - 530) / 20 * 0.025
+        visota = max(0, (530 - detail.z) // 20 * 0.025)
         print(visota)
 
+        print(detail)
         # pick detail
         robot.open_gripper()
         robot.setAng(-100.0, detail.angle)

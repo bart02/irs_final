@@ -14,7 +14,7 @@ OFFSET = {'x': -55 / 1000,
           'y':  15 / 1000,
           'z': -362 / 1000}
 
-VELOCITY = 0.4
+VELOCITY = 0.2
 HEAP_SCALE_SCALE = 1
 
 class UR10E(OperateRobot):

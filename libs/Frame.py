@@ -29,13 +29,13 @@ class Frame:
                     angle = angle - 90
                     w, h = h, w
 
-                if cv2.contourArea(c) / (w * h):
+                if cv2.contourArea(c) / (w * h) < 0.8:
                     type = DetailType.HEAP
                 elif 3 * w < h:
                     type = DetailType.LONG
                 elif abs(w - h) < 15:
                     type = DetailType.SQUARE
-                elif 25 < w < 45 and 50 < h < 70:
+                elif 20 < w < 45 and 50 < h < 70:
                     type = DetailType.DEFAULT
                 else:
                     type = DetailType.HEAP
@@ -47,7 +47,7 @@ class Frame:
 
                 details.append(Detail(type, center_from_frame, w, h, angle, self.depth[int(y), int(x)]))
 
-        details.sort(key=lambda x: x.type.value)
+        details.sort(key=lambda x: x.type.value, reverse=True)
         return details
 
     def find_blue_details(self):
