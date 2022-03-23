@@ -64,3 +64,4 @@ class UR10E(OperateRobot):
 
         self.setPos(*start, pushHeight)
         self.setPos(*end, pushHeight)
+
