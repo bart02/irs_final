@@ -17,7 +17,7 @@ except ConnectionError:
 ZONE = {'blue': [-0.89409, 0.26178, 0.33163],
         'red': [-0.70500, 0.26093, 0.33224]}
 
-UPPER_ZONE = [-0.755, 0.26, 0.7, 1.487, 3.536,  -0.669]
+UPPER_ZONE = [-0.755, 0.26, 0.7, 1.487, 3.536, -0.669]
 
 HEIGHT = 0.025
 TABLE_HEIGHT = 522
@@ -25,6 +25,7 @@ TOWER_PICTURE_OFFSET = 200 / 1000
 MEASURE_HEIGHT = False
 
 flag = 0
+
 
 def main():
     global flag
@@ -48,29 +49,18 @@ def main():
             continue
 
         # get detail
-        if len(list(filter(lambda x: x.type == DetailType.SQUARE, towers['blue']))) < 2:  # get heaps if it hasn't got squares
-            try:
-                detail = list(filter(lambda x: x.type == DetailType.SQUARE, details))[0]
-            except IndexError:
-                detail = list(filter(lambda x: x.type == DetailType.HEAP, details))[0]
-        else:
-            detail = details[0]
-
+        detail = details[0]
         print(detail)
 
         if detail.type == DetailType.HEAP:
-            # 1th varioant
             print("push heap")
-
             robot.close_gripper()
             robot.setAng(47.22, detail.angle)
             robot.pushHeap(detail.height_m, detail.width_m, detail.center_m, flag)
-            flag+=1
-            if flag==3: flag = 0
+            flag += 1
+            if flag == 3:
+                flag = 0
             continue
-        while detail.type == DetailType.LONG:
-            details.pop(0)
-            detail = details[0]
 
         visota = max(0, (TABLE_HEIGHT - detail.z) // 20 * 0.025)
         print(visota, detail)
@@ -86,8 +76,13 @@ def main():
         robot.initAng(5)
 
         # place detail in current_color zone
-        z = ZONE[current_color].copy()
-        z[2] += tower_height[current_color]
+        if detail.type == DetailType.LONG:
+            z = ZONE[current_color].copy()
+            # TODO: long base position
+        else:
+            z = ZONE[current_color].copy()
+            z[2] += tower_height[current_color]
+
         robot.setPos(*z, True)
         robot.open_gripper()
         time.sleep(1)
