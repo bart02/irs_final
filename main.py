@@ -1,4 +1,7 @@
 import time
+
+import cv2
+
 from libs.Camera import Camera, DummyCamera
 from libs.Detail import Detail
 from libs.UR10E import UR10E
@@ -55,7 +58,7 @@ def main():
         robot.close_gripper()
 
         # lift and rotate the detail
-        robot.setPos(len(towers[current_color]))
+        robot.setPos(len(towers[current_color]) * HEIGHT)
         robot.initAng()
 
         # place detail in current_color zone
@@ -64,9 +67,15 @@ def main():
         robot.setPos(*z, True)
         robot.open_gripper()
         time.sleep(1)
-        robot.setPos(-790.4 / 1000, -172.3 / 1000 + TOWER_PICTURE_OFFSET, 700.1 / 1000, True)
+        robot.setPos(0.1 + len(towers[current_color]) * HEIGHT)
+
 
         # add new detail in current_color tower and switch zone
+        robot.setPos(-790.4 / 1000, -172.3 / 1000 + TOWER_PICTURE_OFFSET, 700.1 / 1000, True)
+        tower_frame = camera.take_photo()
+        cv2.imshow("w", tower_frame.bgr)
+        cv2.waitKey()
+        
         towers[current_color].append(detail)
         current_color = 'blue' if current_color == 'red' else 'red'
 
