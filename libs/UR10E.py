@@ -14,7 +14,7 @@ OFFSET = {'x': -55 / 1000,
 
 VELOCITY = 0.4
 
-PUSH_HEAP_SCALE = 1.3
+PUSH_HEAP_SCALE = 1.2
 
 class UR10E(OperateRobot):
     def __init__(self, ip):
