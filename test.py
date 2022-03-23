@@ -1,10 +1,12 @@
+from libs.Camera import DummyCamera
 from libs.UR10E import UR10E
 
 robot = UR10E('localhost')
 
 def main():
     robot.initPos()
-    robot.setPos(-0.755, 0.26, 0.7, True)
+    robot.setAng(47.22, 30)
+    robot.initAng(5)
     robot.close()
 
 if __name__ == '__main__':
