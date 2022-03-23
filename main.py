@@ -1,3 +1,4 @@
+import time
 from libs.Camera import Camera, DummyCamera
 from libs.Detail import Detail
 from libs.UR10E import UR10E
@@ -19,22 +20,23 @@ def main():
     towers: dict[str, list[Detail]] = {'blue': [], 'red': []}
     current_color = 'blue'
 
-    # sbivalka
-    # frame = camera.take_photo()
-    # details = frame.find_str_details(current_color)
-    # details = list(filter(lambda x: x.z > 5, details))
-    # print(details)
-    # for d in details:
-    #     pass
-    #     # sbit()
+    #sbivalka
+    frame = camera.take_photo()
+    details = frame.find_str_details(current_color)
+    details = list(filter(lambda x: x.z > 5, details))
+    print(details)
+    for d in details:
+        pass
+
+        # sbit()
 
     while True:
         # move to init state to take picture
         robot.initPos()
-
         # detect current_color detail position
         frame = camera.take_photo()
         details = frame.find_str_details(current_color)
+
         if len(frame.find_all_details()) == 0:
             break
         if len(details) == 0:
@@ -42,6 +44,10 @@ def main():
             continue
         detail = details[0]
         print(detail)
+
+        if (detail.z<500 or detail.type=="LONG"):
+            details.pop(0)
+            detail = details[0]
 
         # pick detail
         robot.open_gripper()
@@ -55,10 +61,10 @@ def main():
 
         # place detail in current_color zone
         z = ZONE[current_color].copy()
-        print(towers[current_color])
         z[2] += len(towers[current_color]) * HEIGHT
         robot.setPos(*z, True)
         robot.open_gripper()
+        time.sleep(1)
         robot.setPos(0.1)
 
         # add new detail in current_color tower and switch zone
