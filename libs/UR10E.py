@@ -15,6 +15,7 @@ OFFSET = {'x': -55 / 1000,
           'z': -362 / 1000}
 
 VELOCITY = 0.4
+HEAP_SCALE_SCALE = 1
 
 class UR10E(OperateRobot):
     def __init__(self, ip):
@@ -43,19 +44,20 @@ class UR10E(OperateRobot):
 
     def initAng(self):
         joint = self.getj()
-        joint[5] = radians(- 44.32)
+        joint[5] = radians(-44.32)
         self.movej(joint, VELOCITY)
 
-    def pushHeap(self, w, h, dxy):
+    def pushHeap(self, width, height, dxy, pushHeight):
         table = Point(BASE['x'], BASE['y'])
         heap = Point(dxy[0] + BASE['x'], dxy[1] + BASE['y'])
 
-        r = sqrt(w ^ 2 + h ^ 2) / 2
+        r = sqrt(width ^ 2 + height ^ 2) / 2 * HEAP_SCALE_SCALE
         c = heap.buffer(r).boundary
         l = LineString([table, heap])
         i = c.intersection(l)
 
-        xy = i.geoms[0].coords[0] if i.geoms[0].coords[0][0] > i.geoms[0].coords[0][1] else i.geoms[1].coords[0]
+        start = i.geoms[0].coords[0]
+        end = i.geoms[1].coords[0]
 
-        self.setPos(*xy, 0.001)
-        self.setPos(0, 0, 0.001)
+        self.setPos(*start, pushHeight)
+        self.setPos(*end, pushHeight)
