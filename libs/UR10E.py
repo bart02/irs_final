@@ -52,7 +52,7 @@ class UR10E(OperateRobot):
         table = Point(0, 0)
         heap = Point(dxy[0], dxy[1])
 
-        r = sqrt(width ^ 2 + height ^ 2) / 2 * PUSH_HEAP_SCALE
+        r = sqrt(width ** 2 + height ** 2) / 2 * PUSH_HEAP_SCALE
         c = heap.buffer(r).boundary
         l = LineString([table, heap])
         i = c.intersection(l)

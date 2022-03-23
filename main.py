@@ -20,7 +20,7 @@ except ConnectionError:
 ZONE = {'blue': [-0.89409, 0.26178, 0.33163],
         'red': [-0.70500, 0.26093, 0.33224]}
 
-UPPER_ZONE = [-0.795, 0.26, 0.7]
+UPPER_ZONE = [-0.755, 0.26, 0.7, 1.487, 3.536,  -0.669]
 
 HEIGHT = 0.025
 
@@ -49,8 +49,8 @@ def main():
         print(detail)
         if detail.type == DetailType.HEAP:
             print("push heap")
-            robot.pushHeap(detail.height_m, detail.width_m, detail.center_m, 0.005)
-            continue
+            # robot.pushHeap(detail.height_m, detail.width_m, detail.center_m, 0.005)
+            # continue
         while detail.type == DetailType.LONG:
             details.pop(0)
             detail = details[0]
@@ -77,10 +77,11 @@ def main():
         robot.setPos(0.1 + len(towers[current_color]) * HEIGHT)
 
         # add new detail in current_color tower and switch zone
-        robot.setPos(*UPPER_ZONE, True)
+        robot.movel(UPPER_ZONE, 0.2)
         tower_frame = camera.take_photo()
-        cv2.imshow("w", tower_frame.bgr)
-        cv2.waitKey()
+        # red_h =
+        # cv2.imshow("w", tower_frame.bgr)
+        # cv2.waitKey()
 
         towers[current_color].append(detail)
         current_color = 'blue' if current_color == 'red' else 'red'
