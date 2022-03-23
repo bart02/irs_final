@@ -4,30 +4,29 @@ from libs.UR10E import UR10E
 
 # robot initialization
 try:
-    robot = UR10E('localhost')
-    camera = DummyCamera(fn='data_set/1647866163.3144376.jpg')
-except ConnectionError:
     robot = UR10E('172.31.1.25')
     camera = Camera()
-
+except ConnectionError:
+    robot = UR10E('localhost')
+    camera = DummyCamera(fn='data_set/1647866163.3144376.jpg')
 
 ZONE = {'blue': [-0.89409, 0.26178, 0.33163],
-        'red': [-0.705, 0.260930, 0.332240]}
+        'red':  [-0.70500, 0.26093, 0.33224]}
 
-HEIGHT = 0.26
+HEIGHT = 0.025
 
 def main():
     towers: dict[str, list[Detail]] = {'blue': [], 'red': []}
     current_color = 'blue'
 
     # sbivalka
-    frame = camera.take_photo()
-    details = frame.find_str_details(current_color)
-    details = list(filter(lambda x: x.z > 5, details))
-    print(details)
-    for d in details:
-        pass
-        # sbit()
+    # frame = camera.take_photo()
+    # details = frame.find_str_details(current_color)
+    # details = list(filter(lambda x: x.z > 5, details))
+    # print(details)
+    # for d in details:
+    #     pass
+    #     # sbit()
 
     while True:
         # move to init state to take picture
@@ -56,6 +55,7 @@ def main():
 
         # place detail in current_color zone
         z = ZONE[current_color].copy()
+        print(towers[current_color])
         z[2] += len(towers[current_color]) * HEIGHT
         robot.setPos(*z, True)
         robot.open_gripper()

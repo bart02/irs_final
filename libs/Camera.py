@@ -14,6 +14,8 @@ class Camera:
 
     def _take_photo(self) -> Optional[Frame]:
         ret, depth_frame, color_frame = self._camera.get_color_depth_frame()
+        depth_frame = np.flip(depth_frame, 1)
+        color_frame = np.flip(color_frame, 1)
         if ret:
             return Frame(depth_frame, color_frame, self)
         else:
