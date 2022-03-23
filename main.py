@@ -92,15 +92,16 @@ def main():
         time.sleep(1)
         robot.setPos(0.1 + tower_height[current_color])
 
-        # add new detail in current_color tower and switch zone
-        robot.movel(UPPER_ZONE, 0.4)  # robot.setPos(-0.755, 0.26, 0.7, True)
-        tower_frame = camera.take_photo()
         towers[current_color].append(detail)
 
-        dep = tower_frame.depth
-        d = 350 < dep < 600
-        tower_height['red'] = (TABLE_HEIGHT - tower_frame.depth[20:200, 200:400].min())
-        tower_height['blue'] = (TABLE_HEIGHT - tower_frame.depth[220:400, 200:400].min())
+        # add new detail in current_color tower and switch zone
+        robot.movel(UPPER_ZONE, 0.2)
+        tower_frame = camera.take_photo().depth
+        tower_frame[tower_frame > 600] = 999999
+        tower_frame[tower_frame < 300] = 999999
+
+        tower_height['red'] = (TABLE_HEIGHT - tower_frame[20:200, 200:400].min())
+        tower_height['blue'] = (TABLE_HEIGHT - tower_frame[220:400, 200:400].min())
         print('Tower height', tower_height)
 
         current_color = 'blue' if current_color == 'red' else 'red'
