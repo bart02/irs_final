@@ -23,7 +23,7 @@ class OperateRobot:
         if isinstance(point, dict):
             self.rob.movel((point["x"], point["y"], point["z"], point["rx"], point["ry"], point["rz"]), 0.2, velocity)
         else:
-            self.rob.movel(point, 0.2, 0.2)
+            self.rob.movel(point, 0.2, velocity)
 
     def getl(self):
         return self.rob.getl()
