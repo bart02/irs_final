@@ -24,7 +24,7 @@ TABLE_HEIGHT = 522
 TOWER_PICTURE_OFFSET = 200 / 1000
 MEASURE_HEIGHT = False
 
-flag = False
+flag = 0
 
 def main():
     global flag
@@ -65,8 +65,8 @@ def main():
             robot.close_gripper()
             robot.setAng(47.22, detail.angle)
             robot.pushHeap(detail.height_m, detail.width_m, detail.center_m, flag)
-            if not(flag) : flag= True
-            else: flag = False
+            flag+=1
+            if flag==3: flag = 0
             continue
         while detail.type == DetailType.LONG:
             details.pop(0)
