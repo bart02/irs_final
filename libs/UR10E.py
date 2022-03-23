@@ -2,6 +2,7 @@ from libs.OperateRobot import OperateRobot
 from math import radians, sqrt
 from libs.AGLA import intersection
 from numpy import sign
+from enum import Enum
 
 BASE = {'x': -790.4 / 1000,
         'y': -172.3 / 1000,
@@ -16,7 +17,7 @@ OFFSET = {'x': -55 / 1000,
 
 VELOCITY = 0.6
 
-PUSH_HEAP_SCALE = 1.4
+PUSH_HEAP_SCALE = 1.2
 
 class UR10E(OperateRobot):
     def __init__(self, ip):
@@ -50,15 +51,21 @@ class UR10E(OperateRobot):
         for i in range(len(arg)): joint[arg[i]] = radians(self.zero[arg[i]])
         self.movej(joint, VELOCITY)
 
-    def pushHeap(self, width, height, dxy, flag):
+    class DIR(Enum):
+        FORWARD = 0
+        BACKWARD = 1
+        LEFT = 2
+        RIGHT = 3
+
+    def pushHeap(self, width, height, dxy, z, way):
         r = sqrt(width ** 2 + height ** 2) / 2 * PUSH_HEAP_SCALE
         i = intersection([dxy[0], dxy[1]], r, [0, 0], [dxy[0], dxy[1]])
-        further = i[0] if abs(i[0][0]) > abs(i[1][0]) else i[1]
-        near = i[1] if further == i[0] else i[0]
-        if not flag:
-            x, y = dxy[0] + r * sign(dxy[0]), dxy[1]
-            start, end = [x, y], [x - r * 2 * sign(r), y]
-        else: start, end = further, near
-        self.setPos(*start, 0.005)
-        self.setPos(*end, 0.005)
+
+        if   way == self.DIR.FORWARD:  start, end = i[0], i[1]
+        elif way == self.DIR.BACKWARD: start, end = i[1], i[0]
+        elif way == self.DIR.LEFT:     start, end = [dxy[0] - r, dxy[1]], [dxy[0] + r, dxy[1]]
+        elif way == self.DIR.RIGHT:    start, end = [dxy[0] + r, dxy[1]], [dxy[0] - r, dxy[1]]
+
+        self.setPos(*start, z)
+        self.setPos(*end, z)
 
