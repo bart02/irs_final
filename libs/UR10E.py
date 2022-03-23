@@ -14,7 +14,7 @@ OFFSET = {'x': -55 / 1000,
           'y':  15 / 1000,
           'z': -362 / 1000}
 
-VELOCITY = 0.6
+VELOCITY = 0.4
 
 PUSH_HEAP_SCALE = 1.4
 
@@ -56,8 +56,8 @@ class UR10E(OperateRobot):
         further = i[0] if abs(i[0][0]) > abs(i[1][0]) else i[1]
         near = i[1] if further == i[0] else i[0]
         if not flag:
-            x, y = dxy[0] + r * sign(dxy[0]), dxy[1]
-            start, end = [x, y], [x - r * 2 * sign(r), y]
+            x, y = dxy[0] - r * sign(dxy[0]), dxy[1]
+            end, start = [x, y], [x + r * 2 * sign(r), y]
         else: start, end = further, near
         self.setPos(*start, 0.005)
         self.setPos(*end, 0.005)
