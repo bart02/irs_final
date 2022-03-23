@@ -18,6 +18,8 @@ class Detail:
         self.center_m = self.center_px * PIXEL_TO_M_COEFF
         self.width = width
         self.height = height
+        self.width_m = width * PIXEL_TO_M_COEFF
+        self.height_m = height * PIXEL_TO_M_COEFF
         self.angle = angle
         self.z = z
 
