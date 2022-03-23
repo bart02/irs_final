@@ -23,7 +23,7 @@ HEIGHT = 0.025
 TABLE_HEIGHT = 520
 
 TOWER_PICTURE_OFFSET = 200 / 1000
-
+flag = False
 
 def main():
     towers: dict[str, list[Detail]] = {'blue': [], 'red': []}
@@ -32,6 +32,7 @@ def main():
     while True:
         # move to init state to take picture
         print("cycle")
+        heaps = 0
         robot.initPos()
 
         # detect current_color detail position
@@ -56,9 +57,14 @@ def main():
         print(detail)
 
         if detail.type == DetailType.HEAP:
+            # 1th varioant
             print("push heap")
-            # robot.pushHeap(detail.height_m, detail.width_m, detail.center_m, 0.005)
-            # continue
+            robot.close_gripper()
+            robot.setAng(47.22, detail.angle)
+            robot.pushHeap(detail.height_m, detail.width_m, detail.center_m, 0.005, flag)
+            if not(flag) : flag= True
+            else: flag = False
+            continue
         while detail.type == DetailType.LONG:
             details.pop(0)
             detail = details[0]
@@ -74,7 +80,7 @@ def main():
 
         # lift and rotate the detail
         robot.setPos(0.1 + tower_height[current_color])
-        robot.initAng()
+        robot.initAng(5)
 
         # place detail in current_color zone
         z = ZONE[current_color].copy()
@@ -85,10 +91,12 @@ def main():
         robot.setPos(0.1 + tower_height[current_color])
 
         # add new detail in current_color tower and switch zone
-        robot.setPos(-0.755, 0.26, 0.7, True)
+        robot.movel(UPPER_ZONE, 0.4)  # robot.setPos(-0.755, 0.26, 0.7, True)
         tower_frame = camera.take_photo()
         towers[current_color].append(detail)
 
+        dep = tower_frame.depth
+        d = 350 < dep < 600
         tower_height['red'] = (TABLE_HEIGHT - tower_frame.depth[20:200, 200:400].min())
         tower_height['blue'] = (TABLE_HEIGHT - tower_frame.depth[220:400, 200:400].min())
         print('Tower height', tower_height)

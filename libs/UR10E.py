@@ -15,7 +15,7 @@ OFFSET = {'x': -55 / 1000,
 
 VELOCITY = 0.4
 
-PUSH_HEAP_SCALE = 1.2
+PUSH_HEAP_SCALE = 1.4
 
 class UR10E(OperateRobot):
     def __init__(self, ip):
@@ -36,25 +36,23 @@ class UR10E(OperateRobot):
     def initPos(self):
         self.movel(BASE, VELOCITY)
 
-    j3init = -147.22
-    j5init = - 44.32
+    ZERO = {3: -147.22, 5: -44.32}
 
     def setAng(self, a, b):
         joint = self.getj()
-        joint[3] = radians(a + self.j3init)
-        joint[5] = radians(-b + self.j5init)
+        if a: joint[3] = radians(a + self.ZERO[3])
+        if b: joint[5] = radians(-b + self.ZERO[5])
         self.movej(joint, VELOCITY)
 
-    def initAng(self):
+    def initAng(self, *args):
         joint = self.getj()
-        joint[3] = radians(self.j3init)
-        joint[5] = radians(self.j5init)
+        for i in range(len(args)):
+            joint[args[i]] = radians(self.ZERO[args[i]])
         self.movej(joint, VELOCITY)
 
     def pushHeap(self, width, height, dxy, pushHeight):
         r = sqrt(width ** 2 + height ** 2) / 2 * PUSH_HEAP_SCALE
         i = intersection([dxy[0], dxy[1]], r, [0, 0], [dxy[0], dxy[1]])
-        start = i[0]
-        end = i[1]
+        start = i[1]
         self.setPos(*start, pushHeight)
-        self.setPos(*end, pushHeight)
+        self.setPos(0, 0, pushHeight)
