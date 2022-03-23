@@ -47,7 +47,7 @@ class Frame:
 
                 details.append(Detail(type, center_from_frame, w, h, angle, self.depth[int(y), int(x)]))
 
-        details.sort(key=lambda x: x.type.value, reverse=True)
+        # details.sort(key=lambda x: x.type.value, reverse=True)
         return details
 
     def find_blue_details(self):

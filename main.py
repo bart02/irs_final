@@ -22,12 +22,14 @@ ZONE = {'blue': [-0.89409, 0.26178, 0.33163],
 UPPER_ZONE = [-0.755, 0.26, 0.7, 1.487, 3.536,  -0.669]
 
 HEIGHT = 0.025
+TABLE_HEIGHT = 520
 
 TOWER_PICTURE_OFFSET = 200 / 1000
 
 
 def main():
     towers: dict[str, list[Detail]] = {'blue': [], 'red': []}
+    tower_height = {'blue': 0, 'red': 0}
     current_color = 'blue'
     while True:
         # move to init state to take picture
@@ -36,16 +38,25 @@ def main():
 
         # detect current_color detail position
         frame = camera.take_photo()
-        details = frame.find_str_details(current_color)
-
         if len(frame.find_all_details()) == 0:
             break
+
+        details = frame.find_str_details(current_color)
         if len(details) == 0:
             current_color = 'blue' if current_color == 'red' else 'red'
             continue
-        detail = details[0]
+
+        # get detail
+        if len(list(filter(lambda x: x.type == DetailType.SQUARE, towers['blue']))) < 2:  # get heaps if it hasn't got squares
+            try:
+                detail = list(filter(lambda x: x.type == DetailType.SQUARE, details))[0]
+            except IndexError:
+                detail = list(filter(lambda x: x.type == DetailType.HEAP, details))[0]
+        else:
+            detail = details[0]
 
         print(detail)
+
         if detail.type == DetailType.HEAP:
             print("push heap")
             # robot.pushHeap(detail.height_m, detail.width_m, detail.center_m, 0.005)
@@ -54,7 +65,7 @@ def main():
             details.pop(0)
             detail = details[0]
 
-        visota = max(0, (530 - detail.z) // 20 * 0.025)
+        visota = max(0, (TABLE_HEIGHT - detail.z) // 20 * 0.025)
         print(visota, detail)
 
         # pick detail
@@ -64,25 +75,26 @@ def main():
         robot.close_gripper()
 
         # lift and rotate the detail
-        robot.setPos(0.1 + len(towers[current_color]) * HEIGHT)
+        robot.setPos(0.1 + tower_height[current_color])
         robot.initAng()
 
         # place detail in current_color zone
         z = ZONE[current_color].copy()
-        z[2] += len(towers[current_color]) * HEIGHT
+        z[2] += tower_height[current_color]
         robot.setPos(*z, True)
         robot.open_gripper()
         time.sleep(1)
-        robot.setPos(0.1 + len(towers[current_color]) * HEIGHT)
+        robot.setPos(0.1 + tower_height[current_color])
 
         # add new detail in current_color tower and switch zone
         robot.movel(UPPER_ZONE, 0.2)
         tower_frame = camera.take_photo()
-        # red_h =
-        # cv2.imshow("w", tower_frame.bgr)
-        # cv2.waitKey()
-
         towers[current_color].append(detail)
+
+        tower_height['red'] = (TABLE_HEIGHT - tower_frame.depth[20:200, 200:400].min())
+        tower_height['blue'] = (TABLE_HEIGHT - tower_frame.depth[220:400, 200:400].min())
+        print('Tower height', tower_height)
+
         current_color = 'blue' if current_color == 'red' else 'red'
 
     robot.close()
