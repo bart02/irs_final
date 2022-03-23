@@ -1,5 +1,7 @@
 from libs.OperateRobot import OperateRobot
-from math import radians
+from math import radians, sqrt
+from shapely.geometry import LineString
+from shapely.geometry import Point
 
 BASE = {'x': -790.4 / 1000,
         'y': -172.3 / 1000,
@@ -44,3 +46,16 @@ class UR10E(OperateRobot):
         joint[5] = radians(- 44.32)
         self.movej(joint, VELOCITY)
 
+    def pushHeap(self, w, h, dxy):
+        table = Point(BASE['x'], BASE['y'])
+        heap = Point(dxy[0] + BASE['x'], dxy[1] + BASE['y'])
+
+        r = sqrt(w ^ 2 + h ^ 2) / 2
+        c = heap.buffer(r).boundary
+        l = LineString([table, heap])
+        i = c.intersection(l)
+
+        xy = i.geoms[0].coords[0] if i.geoms[0].coords[0][0] > i.geoms[0].coords[0][1] else i.geoms[1].coords[0]
+
+        self.setPos(*xy, 0.001)
+        self.setPos(0, 0, 0.001)
