@@ -59,6 +59,7 @@ def main():
         if detail.type == DetailType.HEAP:
             # 1th varioant
             print("push heap")
+
             robot.close_gripper()
             robot.setAng(47.22, detail.angle)
             robot.pushHeap(detail.height_m, detail.width_m, detail.center_m, 0.005, flag)
