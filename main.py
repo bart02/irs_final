@@ -45,7 +45,7 @@ def main():
         detail = details[0]
         print(detail)
 
-        if (detail.z<500 or detail.type=="LONG"):
+        if (detail.z < 500 or detail.type=="LONG"):
             details.pop(0)
             detail = details[0]
 
