@@ -6,8 +6,8 @@ PIXEL_TO_M_COEFF = 0.00082
 
 class DetailType(Enum):
     HEAP = -1
-    DEFAULT = 0
-    LONG = 1
+    LONG = 0
+    DEFAULT = 1
     SQUARE = 2
 
 

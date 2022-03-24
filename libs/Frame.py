@@ -31,7 +31,7 @@ class Frame:
 
                 if cv2.contourArea(c) / (w * h) < 0.8:
                     type = DetailType.HEAP
-                elif self.depth[int(y), int(x)] < 480:
+                elif self.depth[int(y), int(x)] < 502:
                     type = DetailType.HEAP
                 elif 3 * w < h:
                     type = DetailType.LONG

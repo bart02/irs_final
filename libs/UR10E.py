@@ -12,10 +12,10 @@ BASE = {'x': -790.4 / 1000,
         'rz': -0.669}
 
 OFFSET = {'x': -55 / 1000,
-          'y':  15 / 1000,
+          'y':  17 / 1000,
           'z': -362 / 1000}
 
-VELOCITY = 0.6
+VELOCITY = 0.4
 
 PUSH_HEAP_SCALE = 1.2
 
@@ -61,10 +61,10 @@ class UR10E(OperateRobot):
         r = sqrt(width ** 2 + height ** 2) / 2 * PUSH_HEAP_SCALE
         i = intersection([dxy[0], dxy[1]], r, [0, 0], [dxy[0], dxy[1]])
 
-        if   way == self.DIR.FORWARD:  start, end = i[0], i[1]
-        elif way == self.DIR.BACKWARD: start, end = i[1], i[0]
-        elif way == self.DIR.LEFT:     start, end = [dxy[0] - r, dxy[1]], [dxy[0] + r, dxy[1]]
-        elif way == self.DIR.RIGHT:    start, end = [dxy[0] + r, dxy[1]], [dxy[0] - r, dxy[1]]
+        if   way == 2:  start, end = i[0], i[1]
+        elif way == 0: start, end = i[1], i[0]
+        elif way == 1:     start, end = [dxy[0] - r, dxy[1]], [dxy[0] + r, dxy[1]]
+        elif way == 3:    start, end = [dxy[0] + r, dxy[1]], [dxy[0] - r, dxy[1]]
 
         self.setPos(*start, z)
         self.setPos(*end, z)
