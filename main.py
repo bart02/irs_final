@@ -17,6 +17,7 @@ except ConnectionError:
 ZONE = {'blue': [-0.89409, 0.26178, 0.33163],
         'red': [-0.70500, 0.26093, 0.33224]}
 
+LONG_ZONE = [-0.89409, -0.26178, 0.43163]
 UPPER_ZONE = [-0.755, 0.26, 0.7, 1.487, 3.536, -0.669]
 
 HEIGHT = 0.025
@@ -77,8 +78,7 @@ def main():
 
         # place detail in current_color zone
         if detail.type == DetailType.LONG:
-            z = ZONE[current_color].copy()
-            # TODO: long base position
+            z = LONG_ZONE
         else:
             z = ZONE[current_color].copy()
             z[2] += tower_height[current_color]
